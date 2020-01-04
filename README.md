@@ -1,3 +1,5 @@
+[![Build Status](https://johnwatson484.visualstudio.com/John%20D%20Watson/_apis/build/status/Power%20Lines%20Fixture%20Service?branchName=master)](https://johnwatson484.visualstudio.com/John%20D%20Watson/_build/latest?definitionId=33&branchName=master)
+
 # Power Lines Fixture Service
 Fixture repository service
 
