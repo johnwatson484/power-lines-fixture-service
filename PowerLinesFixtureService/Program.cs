@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using PowerLinesFixtureService.Messaging;
 
 namespace PowerLinesFixtureService
 {
@@ -13,6 +14,9 @@ namespace PowerLinesFixtureService
     {
         public static void Main(string[] args)
         {
+            var connection = new AmqpConnection();
+            connection.CreateConnectionToQueue("amqp://artemis:artemis@power-lines-message:5672", "fixtures");
+            connection.Listen();
             CreateHostBuilder(args).Build().Run();
         }
 
