@@ -23,9 +23,18 @@ docker-compose up
 ## Develop application in container
 This will create a PostgreSQL database in a separate container exposed on port `5432`.  The application will be accessible on port `5000`.
 
+The application is dependent on an existing Docker network named `power-lines`.
+
 ```
+docker network create power-lines
 docker-compose -f docker-compose.yaml -f docker-compose.development.yaml build
 docker-compose -f docker-compose.yaml -f docker-compose.development.yaml up
+```
+
+The service is dependent on an AMQP 1.0 message broker. For development an ActiveMQ Artemis container is provided.
+```
+docker-compose -f docker-compose.yaml -f docker-compose.development.yaml -f docker-compose.external.yaml build
+docker-compose -f docker-compose.yaml -f docker-compose.development.yaml -f docker-compose.external.yaml up
 ```
 
 ## Debug application in container
