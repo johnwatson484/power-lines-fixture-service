@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+  power-lines-fixture-service-test:
+    build: 
+      context: .
+      target: test-env
+    image: power-lines-fixture-service-test
+    container_name: power-lines-fixture-service-test
+    
