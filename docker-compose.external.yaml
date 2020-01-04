@@ -5,19 +5,7 @@ services:
       - power-lines-fixture-service-postgres
       - power-lines-message
     environment: 
-      Message__Host: power-lines-message
-      ConnectionStrings__DefaultConnection: "Server=power-lines-fixture-service-postgres;Port=5432;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
-
-  power-lines-fixture-service-postgres:
-    image: postgres:11.4-alpine
-    environment:
-      POSTGRES_DB: power_lines_fixtures
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      Message__Host: power-lines-message      
 
   power-lines-message:
     container_name: power-lines-message

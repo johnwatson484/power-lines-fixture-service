@@ -4,11 +4,26 @@ services:
     build: 
       context: .
       target: development-env
+    depends_on: 
+      - power-lines-fixture-service-postgres
     ports:
       - "5000:5000"
-      - "5001:5001"      
+      - "5001:5001"
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=power-lines-fixture-service-postgres;Port=5432;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
     volumes:
-      - ./PowerLinesFixtureService:/PowerLinesFixtureService
+      - ./PowerLinesFixtureService:/PowerLinesFixtureService    
+
+  power-lines-fixture-service-postgres:
+    image: postgres:11.4-alpine
+    environment:
+      POSTGRES_DB: power_lines_fixtures
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
   postgres_data: {}
