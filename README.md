@@ -1,2 +1,2 @@
-# power-lines-fixture-service
+# Power Lines Fixture Service
 Fixture repository service
