@@ -39,14 +39,22 @@ namespace PowerLinesFixtureService.Messaging
             connection.Close();
         }
 
-        public async Task Listen()
+        public void Listen()
         {
             receiver.Start(
                 20,
                 (link, message) =>
                 {
-                    Console.WriteLine(message);
-                    link.Accept(message);
+                    try
+                    {
+                        Console.WriteLine(message.Body);
+                        link.Accept(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Message rejected: {0}", ex);
+                        link.Reject(message);
+                    }
                 });
         }
     }

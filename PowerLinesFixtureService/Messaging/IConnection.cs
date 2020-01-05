@@ -9,6 +9,6 @@ namespace PowerLinesFixtureService.Messaging
 
         void CloseConnection();
 
-        Task Listen();
+        void Listen();
     }
 }

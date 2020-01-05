@@ -15,7 +15,7 @@ namespace PowerLinesFixtureService
         public static void Main(string[] args)
         {
             var connection = new AmqpConnection();
-            connection.CreateConnectionToQueue("amqp://artemis:artemis@power-lines-message:5672", "fixtures");
+            Task.Run(()=>connection.CreateConnectionToQueue("amqp://artemis:artemis@power-lines-message:5672", "fixtures")).Wait();
             connection.Listen();
             CreateHostBuilder(args).Build().Run();
         }
