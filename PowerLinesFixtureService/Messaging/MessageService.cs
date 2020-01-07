@@ -36,7 +36,7 @@ namespace PowerLinesFixtureService.Messaging
 
         public void ReceiveMessage(Message message)
         {            
-            var fixture = JsonConvert.DeserializeObject<Fixture>(message.Body);
+            var fixture = JsonConvert.DeserializeObject<Fixture>(message.Body.ToString());
             dbContext.Fixtures.Add(fixture);
             dbContext.SaveChanges();
         }
