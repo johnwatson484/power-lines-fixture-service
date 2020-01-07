@@ -1,4 +1,8 @@
 using System;
+using Amqp;
+using PowerLinesFixtureService.Data;
+using PowerLinesFixtureService.Models;
+using Newtonsoft.Json;
 
 namespace PowerLinesFixtureService.Messaging
 {
@@ -7,10 +11,13 @@ namespace PowerLinesFixtureService.Messaging
         private IConnection connection;
         private MessageConfig messageConfig;
 
-        public MessageService(IConnection connection, MessageConfig messageConfig)
+        private readonly ApplicationDbContext dbContext;
+
+        public MessageService(IConnection connection, MessageConfig messageConfig, ApplicationDbContext dbContext)
         {
             this.connection = connection;
             this.messageConfig = messageConfig;
+            this.dbContext = dbContext;
         }
 
         public void Listen()
@@ -25,6 +32,13 @@ namespace PowerLinesFixtureService.Messaging
                 connection.CreateConnectionToQueue(new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.FixtureUsername, messageConfig.FixturePassword).ToString(),
                 messageConfig.FixtureQueue))
             .Wait();
+        }
+
+        public void ReceiveMessage(Message message)
+        {
+            var fixture = Json.Deserialize<Fixture>(message.Body);
+            dbContext.Fixtures.Add(fixture);
+            dbContext.SaveChanges();
         }
     }
 }

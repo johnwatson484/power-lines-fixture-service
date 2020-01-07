@@ -39,7 +39,7 @@ namespace PowerLinesFixtureService.Messaging
             connection.Close();
         }
 
-        public void Listen()
+        public void Listen(Action<Message> receiveAction)
         {
             receiver.Start(
                 20,
@@ -48,6 +48,7 @@ namespace PowerLinesFixtureService.Messaging
                     try
                     {
                         Console.WriteLine(message.Body);
+                        receiveAction(message);
                         link.Accept(message);
                     }
                     catch (Exception ex)

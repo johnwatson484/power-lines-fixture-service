@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Amqp;
 
 namespace PowerLinesFixtureService.Messaging
 {
@@ -9,6 +10,6 @@ namespace PowerLinesFixtureService.Messaging
 
         void CloseConnection();
 
-        void Listen();
+        void Listen(Action<Message> receiveAction);
     }
 }
