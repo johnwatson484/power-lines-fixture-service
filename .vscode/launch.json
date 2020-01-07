@@ -8,7 +8,7 @@
       "name": ".NET Core Docker Attach",
       "type": "coreclr",
       "request": "attach",
-      "processId": "136",
+      "processId": "${command:pickRemoteProcess}",
       "pipeTransport": {
         "pipeProgram": "docker",
         "pipeArgs": [
