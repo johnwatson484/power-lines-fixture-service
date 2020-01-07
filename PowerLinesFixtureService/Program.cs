@@ -15,8 +15,14 @@ namespace PowerLinesFixtureService
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            var messageService = services.GetRequiredService<MessageService>();
-            messageService.Listen();
+
+            using (var serviceScope = host.Services.CreateScope())
+            {
+                var services = serviceScope.ServiceProvider;
+                var messageService = services.GetRequiredService<MessageService>();
+                messageService.Listen();
+            }
+
             host.Run();
         }
 

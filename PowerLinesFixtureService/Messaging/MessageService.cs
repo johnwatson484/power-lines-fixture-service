@@ -3,6 +3,7 @@ using Amqp;
 using PowerLinesFixtureService.Data;
 using PowerLinesFixtureService.Models;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace PowerLinesFixtureService.Messaging
 {
@@ -36,7 +37,7 @@ namespace PowerLinesFixtureService.Messaging
 
         public void ReceiveMessage(Message message)
         {
-            var fixture = Json.Deserialize<Fixture>(message.Body);
+            var fixture = JsonConvert.DeserializeObject<Fixture>(message.Body);
             dbContext.Fixtures.Add(fixture);
             dbContext.SaveChanges();
         }
