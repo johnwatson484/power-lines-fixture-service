@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PowerLinesFixtureService.Data;
+using PowerLinesFixtureService.Messaging;
 using Microsoft.EntityFrameworkCore;
 
 namespace PowerLinesFixtureService
@@ -30,7 +31,11 @@ namespace PowerLinesFixtureService
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
-                    
+
+            var messageConfig = Configuration.GetSection("Message").Get<MessageConfig>();
+            services.AddSingleton(messageConfig);
+            services.AddScoped<IConnection, AmqpConnection>();
+            services.AddScoped<IMessageService, MessageService>();
             services.AddControllers();
         }
 
