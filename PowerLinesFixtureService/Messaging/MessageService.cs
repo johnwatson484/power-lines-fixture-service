@@ -11,7 +11,6 @@ namespace PowerLinesFixtureService.Messaging
     {
         private IConnection connection;
         private MessageConfig messageConfig;
-
         private readonly ApplicationDbContext dbContext;
 
         public MessageService(IConnection connection, MessageConfig messageConfig, ApplicationDbContext dbContext)
@@ -24,7 +23,7 @@ namespace PowerLinesFixtureService.Messaging
         public void Listen()
         {
             CreateConnectionToQueue();
-            connection.Listen();
+            connection.Listen(ReceiveMessage);
         }
 
         public void CreateConnectionToQueue()
@@ -36,7 +35,7 @@ namespace PowerLinesFixtureService.Messaging
         }
 
         public void ReceiveMessage(Message message)
-        {
+        {            
             var fixture = JsonConvert.DeserializeObject<Fixture>(message.Body);
             dbContext.Fixtures.Add(fixture);
             dbContext.SaveChanges();

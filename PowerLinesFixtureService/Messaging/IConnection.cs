@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Amqp;
+using Amqp.Framing;
 
 namespace PowerLinesFixtureService.Messaging
 {
