@@ -3,9 +3,7 @@ services:
   power-lines-fixture-service:
     depends_on:
       - power-lines-fixture-service-postgres
-      - power-lines-message
-    environment: 
-      Message__Host: power-lines-message      
+      - power-lines-message    
 
   power-lines-message:
     container_name: power-lines-message

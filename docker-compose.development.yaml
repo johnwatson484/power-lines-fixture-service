@@ -11,6 +11,7 @@ services:
       - "5001:5001"
     environment:
       ConnectionStrings__DefaultConnection: "Server=power-lines-fixture-service-postgres;Port=5432;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
+      Message__Host: power-lines-message
     volumes:
       - ./PowerLinesFixtureService:/PowerLinesFixtureService    
 

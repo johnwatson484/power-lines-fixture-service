@@ -20,7 +20,7 @@ namespace PowerLinesFixtureService
             using (var serviceScope = host.Services.CreateScope())
             {
                 var services = serviceScope.ServiceProvider;
-                var messageService = services.GetRequiredService<MessageService>();
+                var messageService = services.GetRequiredService<IMessageService>();
                 messageService.Listen();
             }
 

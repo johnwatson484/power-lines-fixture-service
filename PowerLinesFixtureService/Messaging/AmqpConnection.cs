@@ -20,6 +20,7 @@ namespace PowerLinesFixtureService.Messaging
             {
                 ConfigureConnectionFactory();
             }
+            Console.WriteLine(brokerUrl);
             brokerAddr = new Address(brokerUrl);
             connection = await factory.CreateAsync(brokerAddr);
             session = new Session(connection);
