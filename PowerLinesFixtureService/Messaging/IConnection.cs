@@ -11,6 +11,6 @@ namespace PowerLinesFixtureService.Messaging
 
         void CloseConnection();
 
-        void Listen(Action<Message> receiveAction);
+        ReceiverLink GetReceiver();
     }
 }

@@ -40,24 +40,9 @@ namespace PowerLinesFixtureService.Messaging
             connection.Close();
         }
 
-        public void Listen(Action<Message> receiveAction)
+        public ReceiverLink GetReceiver()
         {
-            receiver.Start(
-                20,
-                (link, message) =>
-                {
-                    try
-                    {
-                        Console.WriteLine(message.Body);
-                        receiveAction(message);
-                        link.Accept(message);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Message rejected: {0}", ex);
-                        link.Reject(message);
-                    }
-                });
+            return receiver;
         }
     }
 }
