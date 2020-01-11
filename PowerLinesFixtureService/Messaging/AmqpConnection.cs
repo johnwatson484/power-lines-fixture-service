@@ -35,9 +35,18 @@ namespace PowerLinesFixtureService.Messaging
 
         public void CloseConnection()
         {
-            receiver.Close();
-            session.Close();
-            connection.Close();
+            if (receiver != null)
+            {
+                receiver.Close();
+            }
+            if (session != null)
+            {
+                session.Close();
+            }
+            if (connection != null)
+            {
+                connection.Close();
+            }
         }
 
         public ReceiverLink GetReceiver()
