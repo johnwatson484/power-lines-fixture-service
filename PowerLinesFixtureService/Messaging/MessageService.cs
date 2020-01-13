@@ -4,20 +4,29 @@ using PowerLinesFixtureService.Data;
 using PowerLinesFixtureService.Models;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PowerLinesFixtureService.Messaging
 {
-    public class MessageService : IMessageService
+    public class MessageService : BackgroundService, IMessageService
     {
         private IConnection connection;
         private MessageConfig messageConfig;
-        private ApplicationDbContext dbContext;
+        private IServiceScopeFactory serviceScopeFactory;
 
-        public MessageService(IConnection connection, MessageConfig messageConfig, ApplicationDbContext dbContext)
+        public MessageService(IConnection connection, MessageConfig messageConfig, IServiceScopeFactory serviceScopeFactory)
         {
             this.connection = connection;
             this.messageConfig = messageConfig;
-            this.dbContext = dbContext;
+            this.serviceScopeFactory = serviceScopeFactory;
+        }
+
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            Listen();
+            return Task.CompletedTask;
         }
 
         public void Listen()
@@ -51,10 +60,14 @@ namespace PowerLinesFixtureService.Messaging
         }
 
         private void ReceiveMessage(Message message)
-        {            
+        {
             var fixture = JsonConvert.DeserializeObject<Fixture>(message.Body.ToString());
-            dbContext.Fixtures.Add(fixture);
-            dbContext.SaveChanges();
-        }
+            using (var scope = serviceScopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                dbContext.Fixtures.Add(fixture);
+                dbContext.SaveChanges();
+            }
+        }        
     }
 }
