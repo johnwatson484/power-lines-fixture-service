@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using PowerLinesFixtureService.Data;
 using PowerLinesFixtureService.Messaging;
 using Microsoft.EntityFrameworkCore;
+using PowerLinesFixtureService.Analysis;
 
 namespace PowerLinesFixtureService
 {
@@ -34,7 +35,8 @@ namespace PowerLinesFixtureService
 
             var messageConfig = Configuration.GetSection("Message").Get<MessageConfig>();
             services.AddSingleton(messageConfig);
-            services.AddSingleton<IConnection, AmqpConnection>();            
+            services.AddSingleton<IConnection, AmqpConnection>();
+            services.AddScoped<IAnalysisService, AnalysisService>();         
             services.AddControllers();
         }
 

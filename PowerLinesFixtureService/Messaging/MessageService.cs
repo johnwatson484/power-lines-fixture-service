@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
+using PowerLinesFixtureService.Analysis;
 
 namespace PowerLinesFixtureService.Messaging
 {
@@ -67,6 +68,8 @@ namespace PowerLinesFixtureService.Messaging
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 dbContext.Fixtures.Add(fixture);
                 dbContext.SaveChanges();
+                var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
+                analysisService.GetMatchOdds(fixture.FixtureId);
             }
         }        
     }
