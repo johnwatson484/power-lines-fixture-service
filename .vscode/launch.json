@@ -21,7 +21,7 @@
         "quoteArgs": false
       },
       "sourceFileMap": {
-        "/PowerLinesFixtureService": "${workspaceFolder}"
+        "/PowerLinesFixtureService": "${workspaceFolder}/PowerLinesFixtureService"
       }
     }
   ]
