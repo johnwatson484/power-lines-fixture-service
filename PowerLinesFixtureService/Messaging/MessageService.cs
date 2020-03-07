@@ -1,5 +1,4 @@
 using System;
-using Amqp;
 using PowerLinesFixtureService.Data;
 using PowerLinesFixtureService.Models;
 using Newtonsoft.Json;
@@ -13,13 +12,13 @@ namespace PowerLinesFixtureService.Messaging
 {
     public class MessageService : BackgroundService, IMessageService
     {
-        private IConnection connection;
+        private IConsumer consumer;
         private MessageConfig messageConfig;
         private IServiceScopeFactory serviceScopeFactory;
 
-        public MessageService(IConnection connection, MessageConfig messageConfig, IServiceScopeFactory serviceScopeFactory)
+        public MessageService(IConsumer consumer, MessageConfig messageConfig, IServiceScopeFactory serviceScopeFactory)
         {
-            this.connection = connection;
+            this.consumer = consumer;
             this.messageConfig = messageConfig;
             this.serviceScopeFactory = serviceScopeFactory;
         }
@@ -33,43 +32,27 @@ namespace PowerLinesFixtureService.Messaging
         public void Listen()
         {
             CreateConnectionToQueue();
-            var receiver = connection.GetReceiver();
-            receiver.Start(
-                20,
-                (link, message) =>
-                {
-                    try
-                    {
-                        Console.WriteLine(message.Body);
-                        ReceiveMessage(message);
-                        link.Accept(message);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Message rejected: {0}", ex);
-                        link.Reject(message);
-                    }
-                });
+            consumer.Listen(new Action<string>(ReceiveMessage));            
         }
 
         public void CreateConnectionToQueue()
         {
             Task.Run(() =>
-                connection.CreateConnectionToQueue(new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.FixtureUsername, messageConfig.FixturePassword).ToString(),
+                consumer.CreateConnectionToQueue(new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.FixtureUsername, messageConfig.FixturePassword).ToString(),
                 messageConfig.FixtureQueue))
             .Wait();
         }
 
-        private void ReceiveMessage(Message message)
+        private void ReceiveMessage(string message)
         {
-            var fixture = JsonConvert.DeserializeObject<Fixture>(message.Body.ToString());
+            var fixture = JsonConvert.DeserializeObject<Fixture>(message);
             using (var scope = serviceScopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 dbContext.Fixtures.Add(fixture);
                 dbContext.SaveChanges();
-                var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
-                analysisService.GetMatchOdds(fixture.FixtureId);
+                // var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
+                // analysisService.GetMatchOdds(fixture.FixtureId);
             }
         }        
     }

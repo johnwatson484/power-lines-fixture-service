@@ -35,7 +35,7 @@ namespace PowerLinesFixtureService
 
             var messageConfig = Configuration.GetSection("Message").Get<MessageConfig>();
             services.AddSingleton(messageConfig);
-            services.AddSingleton<IConnection, AmqpConnection>();
+            services.AddSingleton<IConsumer, Consumer>();
             services.AddScoped<IAnalysisService, AnalysisService>();         
             services.AddControllers();
         }

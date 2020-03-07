@@ -4,11 +4,15 @@ services:
     build:
       target: development
     depends_on: 
-      - power-lines-fixture-service-postgres
       - power-lines-message
+      - power-lines-fixture-service-postgres
+    entrypoint: >
+      sh -c "
+        scripts/wait-for.sh power-lines-message:5672 --
+        scripts/wait-for.sh power-lines-fixture-service-postgres:5432 --
+        dotnet watch --project ./PowerLinesFixtureService run --urls "http://*:5000""
     ports:
       - "5000:5000"
-      - "5001:5001"
     environment:
       ConnectionStrings__PowerLinesFixtureService: "Server=power-lines-fixture-service-postgres;Port=5432;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
       Message__Host: power-lines-message
@@ -19,6 +23,7 @@ services:
     volumes:
       - ./PowerLinesFixtureService:/home/dotnet/PowerLinesFixtureService
       - ./PowerLinesFixtureService.Tests:/home/dotnet/PowerLinesFixtureService.Tests
+      - ./scripts:/home/dotnet/scripts
 
   power-lines-message:
     image: rabbitmq:3-management-alpine

@@ -18,6 +18,7 @@ COPY --chown=dotnet:dotnet ./PowerLinesFixtureService/*.csproj ./PowerLinesFixtu
 RUN dotnet restore ./PowerLinesFixtureService/PowerLinesFixtureService.csproj
 COPY --chown=dotnet:dotnet ./PowerLinesFixtureService.Tests/ ./PowerLinesFixtureService.Tests/
 COPY --chown=dotnet:dotnet ./PowerLinesFixtureService/ ./PowerLinesFixtureService/
+COPY --chown=dotnet:dotnet ./scripts/ ./scripts/
 RUN dotnet publish ./PowerLinesFixtureService/ -c Release -o /home/dotnet/out
 
 ARG PORT=5000
