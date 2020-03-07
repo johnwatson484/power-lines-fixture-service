@@ -10,31 +10,22 @@ Fixture repository service
 # Running the application
 The application is intended to be run and developed within a container.  A set of docker-compose files exist to support this.
 
-## Run application in container
-Note the application is dependent on an external PostgreSQL database.  A connection string in the environment variable `ConnectionStrings__DefaultConnection` is required.
-
-The application will be accessible on port `8000`.
+## Run production application in container
 
 ```
-docker-compose build
-docker-compose up
+docker-compose -f docker-compose.yaml build
+docker-compose -f docker-compose.yaml up
 ```
 
 ## Develop application in container
-This will create a PostgreSQL database in a separate container exposed on port `5432`.  The application will be accessible on port `5000`.
+The application is dependent on an existing Docker network named `power-lines`.  
 
-The application is dependent on an existing Docker network named `power-lines`.
+The service is dependent on a message broker. For development a RabbitMQ container is provided.
 
 ```
 docker network create power-lines
-docker-compose -f docker-compose.yaml -f docker-compose.development.yaml build
-docker-compose -f docker-compose.yaml -f docker-compose.development.yaml up
-```
-
-The service is dependent on an AMQP 1.0 message broker. For development an ActiveMQ Artemis container is provided.
-```
-docker-compose -f docker-compose.yaml -f docker-compose.development.yaml -f docker-compose.external.yaml build
-docker-compose -f docker-compose.yaml -f docker-compose.development.yaml -f docker-compose.external.yaml up
+docker-compose build
+docker-compose up
 ```
 
 ## Debug application in container
@@ -42,11 +33,15 @@ Running the above development container configuration will include a remote debu
 
 The `${command:pickRemoteProcess}` will prompt for which process to connect to within the container.  
 
-Note that if this will not work if there is a space in the filepath to the VS Code extensions.  In that scenario the process Id should be manually added to the debug config.  The process Id can be found by running the below command.
-
-`docker exec -i power-lines-fixture-service sh -s < "C:\Users\<USERNAME>\.vscode\extensions\ms-vscode.csharp-1.21.9\scripts\remoteProcessPickerScript"`
-
 Local changes to code files will automatically trigger a rebuild and restart of the application within the container.
+
+### Running service with arguments
+A script, `./scripts/run-service.sh`, is provided to run the containerised service with arguments.
+
+Accepted arguements:  
+`--fixtures` import all available fixtures.  
+`--results` import available results.  
+`--all` import result data from all seasons.  If not supplied then only current season results are imported.
 
 ## Run tests
 Unit tests are written in NUnit.
@@ -59,6 +54,6 @@ docker-compose -f docker-compose.test.yaml up
 The test container will automatically close when all tests have been completed.  There is also the option to run the test container using a file watch to aide local development.
 
 ```
-docker-compose -f docker-compose.test.yaml -f docker-compose.development.test.yaml build
-docker-compose -f docker-compose.test.yaml -f docker-compose.development.test.yaml up
+docker-compose -f docker-compose.test.yaml -f docker-compose.test.watch.yaml build
+docker-compose -f docker-compose.test.yaml -f docker-compose.test.watch.yaml up
 ```

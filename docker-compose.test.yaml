@@ -1,9 +1,10 @@
 version: '3.7'
 services:
-  power-lines-fixture-service-test:
+  power-lines-fixture-service:
     build: 
       context: .
-      target: test-env
+      target: development
     image: power-lines-fixture-service-test
     container_name: power-lines-fixture-service-test
+    entrypoint: dotnet test ./PowerLinesFixtureService.Tests/PowerLinesFixtureService.Tests.csproj
     

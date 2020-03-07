@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  power-lines-fixture-service:
+    entrypoint: dotnet watch --project ./PowerLinesFixtureService.Tests test
+    volumes:
+      - ./PowerLinesFixtureService.Tests:/home/dotnet/PowerLinesFixtureService.Tests
+      - ./PowerLinesFixtureService:/home/dotnet/PowerLinesFixtureService

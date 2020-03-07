@@ -3,10 +3,6 @@ services:
   power-lines-fixture-service:
     build:
       context: .
-      target: production-env
+      target: production
     image: power-lines-fixture-service
     container_name: power-lines-fixture-service
-    ports:
-      - "8000:80"
-    environment:
-      ConnectionStrings__DefaultConnection: ${ConnectionStrings__DefaultConnection}
