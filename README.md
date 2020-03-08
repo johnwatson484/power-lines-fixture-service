@@ -34,14 +34,6 @@ The `${command:pickRemoteProcess}` will prompt for which process to connect to w
 
 Local changes to code files will automatically trigger a rebuild and restart of the application within the container.
 
-### Running service with arguments
-A script, `./scripts/run-service.sh`, is provided to run the containerised service with arguments.
-
-Accepted arguements:  
-`--fixtures` import all available fixtures.  
-`--results` import available results.  
-`--all` import result data from all seasons.  If not supplied then only current season results are imported.
-
 ## Run tests
 Unit tests are written in NUnit.
 
