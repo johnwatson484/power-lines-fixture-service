@@ -23,28 +23,36 @@ namespace PowerLinesFixtureService.Migrations
                 {
                     b.Property<int>("FixtureId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("fixtureId")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<decimal>("AwayOddsAverage")
+                        .HasColumnName("awayOddsAverage")
                         .HasColumnType("numeric");
 
                     b.Property<string>("AwayTeam")
+                        .HasColumnName("awayTeam")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Date")
+                        .HasColumnName("date")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Division")
+                        .HasColumnName("division")
                         .HasColumnType("text");
 
                     b.Property<decimal>("DrawOddsAverage")
+                        .HasColumnName("drawOddsAverage")
                         .HasColumnType("numeric");
 
                     b.Property<decimal>("HomeOddsAverage")
+                        .HasColumnName("homeOddsAverage")
                         .HasColumnType("numeric");
 
                     b.Property<string>("HomeTeam")
+                        .HasColumnName("homeTeam")
                         .HasColumnType("text");
 
                     b.HasKey("FixtureId");
@@ -56,19 +64,24 @@ namespace PowerLinesFixtureService.Migrations
                 {
                     b.Property<int>("MatchResultOddsId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnName("matchResultOddsId")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<decimal>("Away")
+                        .HasColumnName("away")
                         .HasColumnType("numeric");
 
                     b.Property<decimal>("Draw")
+                        .HasColumnName("draw")
                         .HasColumnType("numeric");
 
                     b.Property<int>("FixtureId")
+                        .HasColumnName("fixtureId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Home")
+                        .HasColumnName("home")
                         .HasColumnType("numeric");
 
                     b.HasKey("MatchResultOddsId");
