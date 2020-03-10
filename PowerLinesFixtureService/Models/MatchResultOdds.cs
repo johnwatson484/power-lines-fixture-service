@@ -20,5 +20,14 @@ namespace PowerLinesFixtureService.Models
 
         [Column("away")]
         public decimal Away { get; set; }
+
+        [Column("expectedHomeGoals")]
+        public int HomeGoals { get; set; }
+
+        [Column("expectedAwayGoals")]
+        public int AwayGoals { get; set; }
+
+        [Column("expectedGoals")]
+        public decimal ExpectedGoals { get; set; }
     }
 }

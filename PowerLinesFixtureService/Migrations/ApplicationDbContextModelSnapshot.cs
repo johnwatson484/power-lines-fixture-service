@@ -72,8 +72,16 @@ namespace PowerLinesFixtureService.Migrations
                         .HasColumnName("away")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("AwayGoals")
+                        .HasColumnName("expectedAwayGoals")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Draw")
                         .HasColumnName("draw")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("ExpectedGoals")
+                        .HasColumnName("expectedGoals")
                         .HasColumnType("numeric");
 
                     b.Property<int>("FixtureId")
@@ -83,6 +91,10 @@ namespace PowerLinesFixtureService.Migrations
                     b.Property<decimal>("Home")
                         .HasColumnName("home")
                         .HasColumnType("numeric");
+
+                    b.Property<int>("HomeGoals")
+                        .HasColumnName("expectedHomeGoals")
+                        .HasColumnType("integer");
 
                     b.HasKey("MatchResultOddsId");
 

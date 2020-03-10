@@ -36,7 +36,10 @@ namespace PowerLinesFixtureService.Migrations
                     fixtureId = table.Column<int>(nullable: false),
                     home = table.Column<decimal>(nullable: false),
                     draw = table.Column<decimal>(nullable: false),
-                    away = table.Column<decimal>(nullable: false)
+                    away = table.Column<decimal>(nullable: false),
+                    expectedHomeGoals = table.Column<int>(nullable: false),
+                    expectedAwayGoals = table.Column<int>(nullable: false),
+                    expectedGoals = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {

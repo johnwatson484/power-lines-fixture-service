@@ -10,7 +10,7 @@ using PowerLinesFixtureService.Data;
 namespace PowerLinesFixtureService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200308170139_Initial")]
+    [Migration("20200310195254_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,8 +74,16 @@ namespace PowerLinesFixtureService.Migrations
                         .HasColumnName("away")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("AwayGoals")
+                        .HasColumnName("expectedAwayGoals")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Draw")
                         .HasColumnName("draw")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("ExpectedGoals")
+                        .HasColumnName("expectedGoals")
                         .HasColumnType("numeric");
 
                     b.Property<int>("FixtureId")
@@ -85,6 +93,10 @@ namespace PowerLinesFixtureService.Migrations
                     b.Property<decimal>("Home")
                         .HasColumnName("home")
                         .HasColumnType("numeric");
+
+                    b.Property<int>("HomeGoals")
+                        .HasColumnName("expectedHomeGoals")
+                        .HasColumnType("integer");
 
                     b.HasKey("MatchResultOddsId");
 
