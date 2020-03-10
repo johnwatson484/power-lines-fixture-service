@@ -28,10 +28,10 @@ namespace PowerLinesFixtureService.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "match_result_odds",
+                name: "match_odds",
                 columns: table => new
                 {
-                    matchResultOddsId = table.Column<int>(nullable: false)
+                    matchOddsId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     fixtureId = table.Column<int>(nullable: false),
                     home = table.Column<decimal>(nullable: false),
@@ -43,9 +43,9 @@ namespace PowerLinesFixtureService.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_match_result_odds", x => x.matchResultOddsId);
+                    table.PrimaryKey("PK_match_odds", x => x.matchOddsId);
                     table.ForeignKey(
-                        name: "FK_match_result_odds_fixtures_fixtureId",
+                        name: "FK_match_odds_fixtures_fixtureId",
                         column: x => x.fixtureId,
                         principalTable: "fixtures",
                         principalColumn: "fixtureId",
@@ -53,8 +53,8 @@ namespace PowerLinesFixtureService.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_match_result_odds_fixtureId",
-                table: "match_result_odds",
+                name: "IX_match_odds_fixtureId",
+                table: "match_odds",
                 column: "fixtureId",
                 unique: true);
         }
@@ -62,7 +62,7 @@ namespace PowerLinesFixtureService.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "match_result_odds");
+                name: "match_odds");
 
             migrationBuilder.DropTable(
                 name: "fixtures");

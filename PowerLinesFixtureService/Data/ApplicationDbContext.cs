@@ -10,6 +10,6 @@ namespace PowerLinesFixtureService.Data
         {
         }
         public DbSet<Fixture> Fixtures { get; set; } 
-        public DbSet<MatchResultOdds> MatchResultOdds { get; set; } 
+        public DbSet<MatchOdds> MatchOdds { get; set; } 
     }
 }

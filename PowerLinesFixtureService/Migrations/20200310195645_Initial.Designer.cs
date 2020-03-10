@@ -10,7 +10,7 @@ using PowerLinesFixtureService.Data;
 namespace PowerLinesFixtureService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200310195254_Initial")]
+    [Migration("20200310195645_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,11 +62,11 @@ namespace PowerLinesFixtureService.Migrations
                     b.ToTable("fixtures");
                 });
 
-            modelBuilder.Entity("PowerLinesFixtureService.Models.MatchResultOdds", b =>
+            modelBuilder.Entity("PowerLinesFixtureService.Models.MatchOdds", b =>
                 {
-                    b.Property<int>("MatchResultOddsId")
+                    b.Property<int>("MatchOddsId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("matchResultOddsId")
+                        .HasColumnName("matchOddsId")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
@@ -98,19 +98,19 @@ namespace PowerLinesFixtureService.Migrations
                         .HasColumnName("expectedHomeGoals")
                         .HasColumnType("integer");
 
-                    b.HasKey("MatchResultOddsId");
+                    b.HasKey("MatchOddsId");
 
                     b.HasIndex("FixtureId")
                         .IsUnique();
 
-                    b.ToTable("match_result_odds");
+                    b.ToTable("match_odds");
                 });
 
-            modelBuilder.Entity("PowerLinesFixtureService.Models.MatchResultOdds", b =>
+            modelBuilder.Entity("PowerLinesFixtureService.Models.MatchOdds", b =>
                 {
                     b.HasOne("PowerLinesFixtureService.Models.Fixture", null)
-                        .WithOne("MatchResultOdds")
-                        .HasForeignKey("PowerLinesFixtureService.Models.MatchResultOdds", "FixtureId")
+                        .WithOne("MatchOdds")
+                        .HasForeignKey("PowerLinesFixtureService.Models.MatchOdds", "FixtureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

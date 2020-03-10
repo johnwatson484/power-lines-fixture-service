@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PowerLinesFixtureService.Models
 {
-    [Table("match_result_odds")]
-    public class MatchResultOdds
+    [Table("match_odds")]
+    public class MatchOdds
     {
-        [Column("matchResultOddsId")]
-        public int MatchResultOddsId { get; set; }
+        [Column("matchOddsId")]
+        public int MatchOddsId { get; set; }
 
         [Column("fixtureId")]
         public int FixtureId { get; set; }

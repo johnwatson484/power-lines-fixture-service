@@ -30,6 +30,6 @@ namespace PowerLinesFixtureService.Models
         [Column("awayOddsAverage")]
         public decimal AwayOddsAverage { get; set; }
 
-        public virtual MatchResultOdds MatchResultOdds { get; set; }
+        public virtual MatchOdds MatchOdds { get; set; }
     }
 }
