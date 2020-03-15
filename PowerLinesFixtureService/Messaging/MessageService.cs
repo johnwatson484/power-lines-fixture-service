@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using PowerLinesFixtureService.Analysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace PowerLinesFixtureService.Messaging
 {
@@ -32,7 +33,7 @@ namespace PowerLinesFixtureService.Messaging
         public void Listen()
         {
             CreateConnectionToQueue();
-            consumer.Listen(new Action<string>(ReceiveMessage));            
+            consumer.Listen(new Action<string>(ReceiveMessage));
         }
 
         public void CreateConnectionToQueue()
@@ -49,11 +50,19 @@ namespace PowerLinesFixtureService.Messaging
             using (var scope = serviceScopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                dbContext.Fixtures.Add(fixture);
-                dbContext.SaveChanges();
+
+                try
+                {
+                    dbContext.Fixtures.Add(fixture);
+                    dbContext.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    Console.WriteLine("{0} v {1} exists, skipping", fixture.HomeTeam, fixture.AwayTeam);
+                }
                 // var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
                 // analysisService.GetMatchOdds(fixture.FixtureId);
             }
-        }        
+        }
     }
 }

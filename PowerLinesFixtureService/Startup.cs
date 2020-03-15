@@ -30,8 +30,7 @@ namespace PowerLinesFixtureService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(
-                    Configuration.GetConnectionString("PowerLinesFixtureService")));
+                options.UseNpgsql(Configuration.GetConnectionString("PowerLinesFixtureService")));
 
             var messageConfig = Configuration.GetSection("Message").Get<MessageConfig>();
             services.AddSingleton(messageConfig);
