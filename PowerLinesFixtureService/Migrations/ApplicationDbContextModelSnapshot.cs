@@ -57,6 +57,9 @@ namespace PowerLinesFixtureService.Migrations
 
                     b.HasKey("FixtureId");
 
+                    b.HasIndex("Date", "HomeTeam", "AwayTeam")
+                        .IsUnique();
+
                     b.ToTable("fixtures");
                 });
 

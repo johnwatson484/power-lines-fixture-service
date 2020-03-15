@@ -53,6 +53,12 @@ namespace PowerLinesFixtureService.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_fixtures_date_homeTeam_awayTeam",
+                table: "fixtures",
+                columns: new[] { "date", "homeTeam", "awayTeam" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_match_odds_fixtureId",
                 table: "match_odds",
                 column: "fixtureId",

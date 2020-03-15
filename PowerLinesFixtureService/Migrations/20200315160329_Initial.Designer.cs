@@ -10,7 +10,7 @@ using PowerLinesFixtureService.Data;
 namespace PowerLinesFixtureService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200310195645_Initial")]
+    [Migration("20200315160329_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,6 +58,9 @@ namespace PowerLinesFixtureService.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("FixtureId");
+
+                    b.HasIndex("Date", "HomeTeam", "AwayTeam")
+                        .IsUnique();
 
                     b.ToTable("fixtures");
                 });
