@@ -8,13 +8,13 @@ services:
       - power-lines-fixture-service-postgres
     entrypoint: >
       sh -c "
-        scripts/wait-for.sh power-lines-message:5672 --
+        scripts/wait-for.sh power-lines-message:6000 --
         scripts/wait-for.sh power-lines-fixture-service-postgres:5432 --
         dotnet watch --project ./PowerLinesFixtureService run --urls "http://*:5000""
     ports:
       - "5000:5000"
     environment:
-      ConnectionStrings__PowerLinesFixtureService: "Server=power-lines-fixture-service-postgres;Port=5432;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
+      ConnectionStrings__PowerLinesFixtureService: "Server=power-lines-fixture-service-postgres;Port=6000;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
       Message__Host: power-lines-message
       Message__Port: 5672
       Message__FixtureQueue: fixtures
@@ -45,7 +45,7 @@ services:
       POSTGRES_USERNAME: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "6000:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
