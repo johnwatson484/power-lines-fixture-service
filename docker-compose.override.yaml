@@ -14,7 +14,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      ConnectionStrings__PowerLinesFixtureService: "Server=power-lines-fixture-service-postgres;Port=6000;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
+      ConnectionStrings__PowerLinesFixtureService: "Server=power-lines-fixture-service-postgres;Port=5432;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
       Message__Host: power-lines-message
       Message__Port: 5672
       Message__FixtureQueue: fixtures
