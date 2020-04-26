@@ -79,6 +79,10 @@ namespace PowerLinesFixtureService.Migrations
                         .HasColumnName("expectedAwayGoals")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("Calculated")
+                        .HasColumnName("calculated")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<decimal>("Draw")
                         .HasColumnName("draw")
                         .HasColumnType("numeric");

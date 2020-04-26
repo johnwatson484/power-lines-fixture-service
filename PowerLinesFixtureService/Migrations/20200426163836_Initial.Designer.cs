@@ -10,7 +10,7 @@ using PowerLinesFixtureService.Data;
 namespace PowerLinesFixtureService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200315160329_Initial")]
+    [Migration("20200426163836_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,10 @@ namespace PowerLinesFixtureService.Migrations
                     b.Property<int>("AwayGoals")
                         .HasColumnName("expectedAwayGoals")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime>("Calculated")
+                        .HasColumnName("calculated")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal>("Draw")
                         .HasColumnName("draw")

@@ -29,5 +29,8 @@ namespace PowerLinesFixtureService.Models
 
         [Column("expectedGoals")]
         public decimal ExpectedGoals { get; set; }
+
+        [Column("calculated")]
+        public DateTime Calculated { get; set; }
     }
 }

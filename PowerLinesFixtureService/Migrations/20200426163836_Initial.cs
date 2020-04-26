@@ -39,7 +39,8 @@ namespace PowerLinesFixtureService.Migrations
                     away = table.Column<decimal>(nullable: false),
                     expectedHomeGoals = table.Column<int>(nullable: false),
                     expectedAwayGoals = table.Column<int>(nullable: false),
-                    expectedGoals = table.Column<decimal>(nullable: false)
+                    expectedGoals = table.Column<decimal>(nullable: false),
+                    calculated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
