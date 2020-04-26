@@ -60,8 +60,6 @@ namespace PowerLinesFixtureService.Messaging
                 {
                     Console.WriteLine("{0} v {1} exists, skipping", fixture.HomeTeam, fixture.AwayTeam);
                 }
-                // var analysisService = scope.ServiceProvider.GetRequiredService<IAnalysisService>();
-                // analysisService.GetMatchOdds(fixture.FixtureId);
             }
         }
     }
