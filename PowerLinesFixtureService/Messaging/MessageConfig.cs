@@ -16,5 +16,11 @@ namespace PowerLinesFixtureService.Messaging
         public string FixtureUsername { get; set; }
 
         public string FixturePassword { get; set; }
+
+        public string AnalysisQueue { get; set; }
+
+        public string AnalysisUsername { get; set; }
+
+        public string AnalysisPassword { get; set; }
     }
 }
