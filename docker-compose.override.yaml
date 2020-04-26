@@ -20,6 +20,9 @@ services:
       Message__FixtureQueue: fixtures
       Message__FixtureUsername: rabbitmq
       Message__FixturePassword: rabbitmq
+      Message__AnalysisQueue: analysis
+      Message__AnalysisUsername: rabbitmq
+      Message__AnalysisPassword: rabbitmq
     volumes:
       - ./PowerLinesFixtureService:/home/dotnet/PowerLinesFixtureService
       - ./PowerLinesFixtureService.Tests:/home/dotnet/PowerLinesFixtureService.Tests
