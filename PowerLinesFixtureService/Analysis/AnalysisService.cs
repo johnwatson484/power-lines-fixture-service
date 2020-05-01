@@ -40,9 +40,7 @@ namespace PowerLinesFixtureService.Analysis
             }
 
             if (pendingFixtures.Count > 0)
-            {
-                sender = new Sender();
-                CreateConnectionToQueue();
+            {                
                 SendFixturesForAnalysis(pendingFixtures);
             }
         }
@@ -63,6 +61,9 @@ namespace PowerLinesFixtureService.Analysis
 
         public void SendFixturesForAnalysis(List<Fixture> fixtures)
         {
+            sender = new Sender();
+            CreateConnectionToQueue();
+            
             foreach (var fixture in fixtures)
             {
                 sender.SendMessage(fixture);
