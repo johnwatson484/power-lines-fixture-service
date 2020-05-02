@@ -13,13 +13,15 @@ namespace PowerLinesFixtureService.Messaging
 {
     public class MessageService : BackgroundService, IMessageService
     {
-        private IConsumer consumer;
+        private IConsumer fixtureConsumer;
+        private IConsumer oddsConsumer;
         private MessageConfig messageConfig;
         private IServiceScopeFactory serviceScopeFactory;
 
-        public MessageService(IConsumer consumer, MessageConfig messageConfig, IServiceScopeFactory serviceScopeFactory)
+        public MessageService(IConsumer fixtureConsumer, IConsumer oddsConsumer, MessageConfig messageConfig, IServiceScopeFactory serviceScopeFactory)
         {
-            this.consumer = consumer;
+            this.fixtureConsumer = fixtureConsumer;
+            this.oddsConsumer = oddsConsumer;
             this.messageConfig = messageConfig;
             this.serviceScopeFactory = serviceScopeFactory;
         }
@@ -33,18 +35,19 @@ namespace PowerLinesFixtureService.Messaging
         public void Listen()
         {
             CreateConnectionToQueue();
-            consumer.Listen(new Action<string>(ReceiveMessage));
+            fixtureConsumer.Listen(new Action<string>(ReceiveFixtureMessage));
+            oddsConsumer.Listen(new Action<string>(ReceiveOddsMessage));
         }
 
         public void CreateConnectionToQueue()
         {
-            Task.Run(() =>
-                consumer.CreateConnectionToQueue(new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.FixtureUsername, messageConfig.FixturePassword).ToString(),
-                messageConfig.FixtureQueue))
-            .Wait();
+            fixtureConsumer.CreateConnectionToQueue(new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.FixtureUsername, messageConfig.FixturePassword).ToString(),
+                messageConfig.FixtureQueue);
+            oddsConsumer.CreateConnectionToQueue(new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.OddsUsername, messageConfig.OddsPassword).ToString(),
+                messageConfig.OddsQueue);
         }
 
-        private void ReceiveMessage(string message)
+        private void ReceiveFixtureMessage(string message)
         {
             var fixture = JsonConvert.DeserializeObject<Fixture>(message);
             using (var scope = serviceScopeFactory.CreateScope())
@@ -60,6 +63,18 @@ namespace PowerLinesFixtureService.Messaging
                 {
                     Console.WriteLine("{0} v {1} exists, skipping", fixture.HomeTeam, fixture.AwayTeam);
                 }
+            }
+        }
+
+        private void ReceiveOddsMessage(string message)
+        {
+            var matchOdds = JsonConvert.DeserializeObject<MatchOdds>(message);
+            using (var scope = serviceScopeFactory.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                dbContext.MatchOdds.Upsert(matchOdds)
+                    .On(x => new { x.FixtureId })
+                    .Run();
             }
         }
     }

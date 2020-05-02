@@ -22,5 +22,11 @@ namespace PowerLinesFixtureService.Messaging
         public string AnalysisUsername { get; set; }
 
         public string AnalysisPassword { get; set; }
+
+        public string OddsQueue { get; set; }
+
+        public string OddsUsername { get; set; }
+
+        public string OddsPassword { get; set; }
     }
 }
