@@ -16,13 +16,7 @@ services:
     environment:
       ConnectionStrings__PowerLinesFixtureService: "Server=power-lines-fixture-service-postgres;Port=5432;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
       Message__Host: power-lines-message
-      Message__Port: 5672
-      Message__FixtureQueue: fixtures
-      Message__FixtureUsername: rabbitmq
-      Message__FixturePassword: rabbitmq
-      Message__AnalysisQueue: analysis
-      Message__AnalysisUsername: rabbitmq
-      Message__AnalysisPassword: rabbitmq
+      AnalysisUrl__Endpoint: http://power-lines-analysis-service:5001
     volumes:
       - ./PowerLinesFixtureService:/home/dotnet/PowerLinesFixtureService
       - ./PowerLinesFixtureService.Tests:/home/dotnet/PowerLinesFixtureService.Tests
