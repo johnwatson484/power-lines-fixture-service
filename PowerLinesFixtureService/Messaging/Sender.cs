@@ -35,7 +35,6 @@ namespace PowerLinesFixtureService.Messaging
                                  routingKey: queue,
                                  basicProperties: null,
                                  body: body);
-            Console.WriteLine("Sent {0}", message);
         }
 
         private void CreateConnectionFactory(string brokerUrl)
