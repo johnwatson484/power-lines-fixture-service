@@ -21,7 +21,7 @@ namespace PowerLinesFixtureService.Analysis
         private Timer timer;
         private int frequencyInMinutes;
 
-        public AnalysisService(IServiceScopeFactory serviceScopeFactory, IAnalysisApi analysisApi, MessageConfig messageConfig, int frequencyInMinutes = 10)
+        public AnalysisService(IServiceScopeFactory serviceScopeFactory, IAnalysisApi analysisApi, MessageConfig messageConfig, int frequencyInMinutes = 1)
         {
             this.serviceScopeFactory = serviceScopeFactory;
             this.analysisApi = analysisApi;
