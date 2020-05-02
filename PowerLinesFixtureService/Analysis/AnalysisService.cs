@@ -17,21 +17,25 @@ namespace PowerLinesFixtureService.Analysis
         private IAnalysisApi analysisApi;
         private MessageConfig messageConfig;
         private ISender sender;
+        private Timer timer;
+        private int frequencyInMinutes;
 
-        public AnalysisService(IServiceScopeFactory serviceScopeFactory, IAnalysisApi analysisApi, MessageConfig messageConfig)
+        public AnalysisService(IServiceScopeFactory serviceScopeFactory, IAnalysisApi analysisApi, MessageConfig messageConfig, int frequencyInMinutes = 10)
         {
             this.serviceScopeFactory = serviceScopeFactory;
             this.analysisApi = analysisApi;
             this.messageConfig = messageConfig;
+            this.frequencyInMinutes = frequencyInMinutes;
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            GetMatchOdds();
+
+            timer = new Timer(GetMatchOdds, null, TimeSpan.Zero, TimeSpan.FromMinutes(frequencyInMinutes));
             return Task.CompletedTask;
         }
 
-        public void GetMatchOdds()
+        public void GetMatchOdds(object state)
         {
             var lastResultDate = GetLastResultDate();
 
