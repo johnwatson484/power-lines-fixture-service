@@ -39,7 +39,7 @@ namespace PowerLinesFixtureService
             services.AddSingleton(analysisUrl);
 
             services.AddSingleton<IAnalysisApi, AnalysisApi>();
-            services.AddSingleton<IConsumer, Consumer>();         
+            services.AddTransient<IConsumer, Consumer>();         
             services.AddControllers();
         }
 
