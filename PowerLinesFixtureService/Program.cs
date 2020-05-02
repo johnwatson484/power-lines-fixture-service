@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using PowerLinesFixtureService.Messaging;
+using PowerLinesFixtureService.Analysis;
 
 namespace PowerLinesFixtureService
 {
@@ -27,6 +28,7 @@ namespace PowerLinesFixtureService
                 .ConfigureServices(services =>
                 {
                     services.AddHostedService<MessageService>();
+                    services.AddHostedService<AnalysisService>();
                 });
     }
 }

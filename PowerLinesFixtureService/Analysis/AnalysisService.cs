@@ -14,12 +14,14 @@ namespace PowerLinesFixtureService.Analysis
     public class AnalysisService : BackgroundService, IAnalysisService
     {
         private IServiceScopeFactory serviceScopeFactory;
+        private IAnalysisApi analysisApi;
         private MessageConfig messageConfig;
         private ISender sender;
 
-        public AnalysisService(IServiceScopeFactory serviceScopeFactory, MessageConfig messageConfig)
+        public AnalysisService(IServiceScopeFactory serviceScopeFactory, IAnalysisApi analysisApi, MessageConfig messageConfig)
         {
             this.serviceScopeFactory = serviceScopeFactory;
+            this.analysisApi = analysisApi;
             this.messageConfig = messageConfig;
         }
 
@@ -31,8 +33,22 @@ namespace PowerLinesFixtureService.Analysis
 
         public void GetMatchOdds()
         {
-            List<Fixture> pendingFixtures;
             var lastResultDate = GetLastResultDate();
+
+            if (lastResultDate.HasValue)
+            {
+                CheckPendingResults(lastResultDate.Value);
+            }
+        }
+
+        public DateTime? GetLastResultDate()
+        {
+            return Task.Run(() => analysisApi.GetLastResultDate()).Result;
+        }
+
+        public void CheckPendingResults(DateTime lastResultDate)
+        {
+            List<Fixture> pendingFixtures;
             using (var scope = serviceScopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -40,15 +56,9 @@ namespace PowerLinesFixtureService.Analysis
             }
 
             if (pendingFixtures.Count > 0)
-            {                
+            {
                 SendFixturesForAnalysis(pendingFixtures);
             }
-        }
-
-        public DateTime GetLastResultDate()
-        {
-            // TODO add get to analysis service
-            return DateTime.Now;
         }
 
         public void CreateConnectionToQueue()
@@ -63,7 +73,7 @@ namespace PowerLinesFixtureService.Analysis
         {
             sender = new Sender();
             CreateConnectionToQueue();
-            
+
             foreach (var fixture in fixtures)
             {
                 sender.SendMessage(fixture);

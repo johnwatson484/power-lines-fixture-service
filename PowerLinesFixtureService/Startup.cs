@@ -34,8 +34,12 @@ namespace PowerLinesFixtureService
 
             var messageConfig = Configuration.GetSection("Message").Get<MessageConfig>();
             services.AddSingleton(messageConfig);
-            services.AddSingleton<IConsumer, Consumer>();
-            services.AddScoped<IAnalysisService, AnalysisService>();         
+
+            var analysisUrl = Configuration.GetSection("AnalysisUrl").Get<AnalysisUrl>();
+            services.AddSingleton(analysisUrl);
+
+            services.AddSingleton<IAnalysisApi, AnalysisApi>();
+            services.AddSingleton<IConsumer, Consumer>();         
             services.AddControllers();
         }
 
