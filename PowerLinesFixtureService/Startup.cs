@@ -14,6 +14,7 @@ using PowerLinesFixtureService.Data;
 using PowerLinesFixtureService.Messaging;
 using Microsoft.EntityFrameworkCore;
 using PowerLinesFixtureService.Analysis;
+using PowerLinesFixtureService.Services;
 
 namespace PowerLinesFixtureService
 {
@@ -39,7 +40,8 @@ namespace PowerLinesFixtureService
             services.AddSingleton(analysisUrl);
 
             services.AddSingleton<IAnalysisApi, AnalysisApi>();
-            services.AddTransient<IConsumer, Consumer>();         
+            services.AddTransient<IConsumer, Consumer>(); 
+            services.AddScoped<IFixtureService, FixtureService>();        
             services.AddControllers();
         }
 

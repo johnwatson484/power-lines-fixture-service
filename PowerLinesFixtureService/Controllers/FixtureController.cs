@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using PowerLinesFixtureService.Data;
 using PowerLinesFixtureService.Models;
+using PowerLinesFixtureService.Services;
 
 namespace PowerLinesFixtureService.Controllers
 {
@@ -9,15 +10,15 @@ namespace PowerLinesFixtureService.Controllers
     [Route("[controller]")]
     public class FixtureController : ControllerBase
     {
-        private readonly ApplicationDbContext dbContext;
+        IFixtureService fixtureService;
 
-        public FixtureController(ApplicationDbContext dbContext)
+        public FixtureController(IFixtureService fixtureService)
         {
-            this.dbContext = dbContext;
+            this.fixtureService = fixtureService;
         }
-        public ActionResult<IEnumerable<Fixture>> Get()
+        public ActionResult<IEnumerable<FixtureOdds>> Get()
         {
-            return dbContext.Fixtures;
+            return fixtureService.Get();
         }
     }
 }
