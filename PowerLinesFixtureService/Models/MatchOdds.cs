@@ -30,6 +30,12 @@ namespace PowerLinesFixtureService.Models
         [Column("expectedGoals")]
         public decimal ExpectedGoals { get; set; }
 
+        [Column("recommended")]
+        public string Recommended { get; set; }
+
+        [Column("lowerRecommended")]
+        public string LowerRecommended { get; set; }
+
         [Column("calculated")]
         public DateTime Calculated { get; set; }
     }

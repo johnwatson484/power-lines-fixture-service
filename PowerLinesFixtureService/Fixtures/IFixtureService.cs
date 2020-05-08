@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using PowerLinesFixtureService.Models;
 
-namespace PowerLinesFixtureService.Services
+namespace PowerLinesFixtureService.Fixtures
 {
     public interface IFixtureService
     {

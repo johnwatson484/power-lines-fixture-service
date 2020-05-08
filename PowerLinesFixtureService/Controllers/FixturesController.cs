@@ -2,17 +2,17 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using PowerLinesFixtureService.Data;
 using PowerLinesFixtureService.Models;
-using PowerLinesFixtureService.Services;
+using PowerLinesFixtureService.Fixtures;
 
 namespace PowerLinesFixtureService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class FixtureController : ControllerBase
+    public class FixturesController : ControllerBase
     {
         IFixtureService fixtureService;
 
-        public FixtureController(IFixtureService fixtureService)
+        public FixturesController(IFixtureService fixtureService)
         {
             this.fixtureService = fixtureService;
         }
