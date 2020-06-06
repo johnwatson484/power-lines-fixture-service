@@ -1,0 +1,46 @@
+environment: development
+name: power-lines-fixture-service
+image: power-lines-fixture-service
+
+container:
+  imagePullPolicy: IfNotPresent
+  requestMemory: 60Mi
+  requestCpu: 60m
+  limitMemory: 250Mi
+  limitCpu: 250m
+  port: 5002
+  readOnlyRootFilesystem: false
+  allowPrivilegeEscalation: false
+  comPlusEnableDiagnostics: 0
+  connectionString: "User Id=postgres;Password=postgres;Server=power-lines-fixture-service-postgres;Port=5432;Database=Database=power_lines_fixture;"
+  analysisEndpoint: http://power-lines-analysis-service:5003
+
+postgresService:
+  postgresHost: power-lines-fixture-service-postgres
+  postgresExternalName: host.docker.internal
+  postgresPort: 5432
+
+message:
+  host: host.docker.internal
+  port: 5672
+  fixtureQueue: power-lines-fixtures
+  fixtureUsername: rabbitmq
+  fixturePassword: rabbitmq
+  analysisQueue: power-lines-analysis
+  analysisUsername: rabbitmq
+  analysisPassword: rabbitmq
+  oddsQueue: power-lines-odds
+  oddsUsername: rabbitmq
+  oddsPassword: rabbitmq
+
+deployment:
+  restartPolicy: Always
+  replicas: 1
+  minReadySeconds: 5
+  redeployOnChange: update this field to force a change
+  imagePullSecret:
+  runAsNonRoot: true
+  runAsUser: 1000
+
+service:
+  port: 80

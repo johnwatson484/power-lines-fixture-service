@@ -1,0 +1,19 @@
+{{- include "helm-library.configmap" (list . "power-lines-fixture-service.configmap") -}}
+{{- define "power-lines-fixture-service.configmap" -}}
+data:
+  ConnectionStrings__PowerLinesFixtureService: {{ quote .Values.container.connectionString }}
+  Message__Host: {{ quote .Values.message.host }}
+  Message__Port: {{ quote .Values.message.port }}
+  Message__AnalysisQueue: {{ quote .Values.message.analysisQueue }}
+  Message__AnalysisUsername: {{ quote .Values.message.analysisUsername }}
+  Message__AnalysisPassword: {{ quote .Values.message.analysisPassword }}
+  Message__FixtureQueue: {{ quote .Values.message.fixtureQueue }}
+  Message__FixtureUsername: {{ quote .Values.message.fixtureUsername }}
+  Message__FixturePassword: {{ quote .Values.message.fixturePassword }}
+  Message__OddsQueue: {{ quote .Values.message.oddsQueue }}
+  Message__OddsUsername: {{ quote .Values.message.oddsUsername }}
+  Message__OddsPassword: {{ quote .Values.message.oddsPassword }}
+  COMPlus_EnableDiagnostics: {{ quote .Values.container.comPlusEnableDiagnostics }}
+  ASPNETCORE_ENVIRONMENT: {{ quote .Values.environment }}
+  AnalysisUrl__Endpoint: {{ quote .Values.container.analysisEndpoint }}
+{{- end -}}

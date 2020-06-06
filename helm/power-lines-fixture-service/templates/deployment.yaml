@@ -1,0 +1,8 @@
+{{- include "helm-library.deployment" (list . "power-lines-fixture-service.deployment") -}}
+{{- define "power-lines-fixture-service.deployment" -}}
+spec:
+  template:
+    spec:
+      containers:
+      - {{ include "helm-library.container" (list . "power-lines-fixture-service.container") }}
+{{- end -}}

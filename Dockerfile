@@ -17,7 +17,9 @@ RUN dotnet restore ./PowerLinesFixtureService.Tests/PowerLinesFixtureService.Tes
 COPY --chown=dotnet:dotnet ./PowerLinesFixtureService/*.csproj ./PowerLinesFixtureService/
 RUN dotnet restore ./PowerLinesFixtureService/PowerLinesFixtureService.csproj
 COPY --chown=dotnet:dotnet ./PowerLinesFixtureService.Tests/ ./PowerLinesFixtureService.Tests/
+RUN true
 COPY --chown=dotnet:dotnet ./PowerLinesFixtureService/ ./PowerLinesFixtureService/
+RUN true
 COPY --chown=dotnet:dotnet ./scripts/ ./scripts/
 RUN dotnet publish ./PowerLinesFixtureService/ -c Release -o /home/dotnet/out
 
