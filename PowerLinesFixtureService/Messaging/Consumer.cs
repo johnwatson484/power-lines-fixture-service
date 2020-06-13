@@ -11,10 +11,13 @@ namespace PowerLinesFixtureService.Messaging
         protected ConnectionFactory connectionFactory;
         protected RabbitMQ.Client.IConnection connection;
         protected IModel channel;
+        protected QueueType queueType;
         protected string queue;
+        protected string tempQueue;
 
-        public void CreateConnectionToQueue(string brokerUrl, string queue)
+        public void CreateConnectionToQueue(QueueType queueType, string brokerUrl, string queue)
         {
+            this.queueType = queueType;
             this.queue = queue;
             CreateConnectionFactory(brokerUrl);
             CreateConnection();
@@ -36,7 +39,7 @@ namespace PowerLinesFixtureService.Messaging
                 var message = Encoding.UTF8.GetString(body);
                 messageAction(message);
             };
-            channel.BasicConsume(queue: queue,
+            channel.BasicConsume(queue: GetQueueName(),
                                  autoAck: true,
                                  consumer: consumer);
         }
@@ -60,11 +63,47 @@ namespace PowerLinesFixtureService.Messaging
 
         private void CreateQueue()
         {
+            switch (queueType)
+            {
+                case QueueType.Worker:
+                    CreateWorkerQueue();
+                    break;
+                case QueueType.Exchange:
+                    CreateExchange();
+                    BindQueue();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CreateWorkerQueue()
+        {
             channel.QueueDeclare(queue: queue,
                                  durable: true,
                                  exclusive: false,
                                  autoDelete: false,
                                  arguments: null);
+        }
+
+        private void CreateExchange()
+        {
+            channel.ExchangeDeclare(queue, ExchangeType.Direct, true, false);
+        }
+
+        
+
+        private void BindQueue()
+        {
+            tempQueue = channel.QueueDeclare().QueueName;
+            channel.QueueBind(queue: tempQueue,
+                              exchange: queue,
+                              routingKey: "power-lines-fixture-service");
+        }
+
+        private string GetQueueName()
+        {
+            return queueType == QueueType.Exchange ? tempQueue : queue;
         }
     }
 }

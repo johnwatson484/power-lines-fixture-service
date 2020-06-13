@@ -81,7 +81,7 @@ namespace PowerLinesFixtureService.Analysis
 
             foreach (var fixture in fixtures)
             {
-                sender.SendMessage(fixture);
+                sender.SendMessage(new AnalysisMessage(fixture));
             }
         }
     }
