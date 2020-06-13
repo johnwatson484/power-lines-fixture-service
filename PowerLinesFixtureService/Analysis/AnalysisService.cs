@@ -42,7 +42,7 @@ namespace PowerLinesFixtureService.Analysis
 
             if (lastResultDate.HasValue)
             {
-                CheckPendingResults(lastResultDate.Value);
+                CheckPendingFixtures(lastResultDate.Value);
             }
         }
 
@@ -51,7 +51,7 @@ namespace PowerLinesFixtureService.Analysis
             return Task.Run(() => analysisApi.GetLastResultDate()).Result;
         }
 
-        public void CheckPendingResults(DateTime lastResultDate)
+        public void CheckPendingFixtures(DateTime lastResultDate)
         {
             List<Fixture> pendingFixtures;
             using (var scope = serviceScopeFactory.CreateScope())
