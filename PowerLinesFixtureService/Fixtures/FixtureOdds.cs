@@ -28,7 +28,7 @@ namespace PowerLinesFixtureService.Fixtures
         }
         public string Recommended { get; set; }
         public string LowerRecommended { get; set; }
-        public DateTime Calculated { get; set; }
+        public DateTime? Calculated { get; set; }
 
         public FixtureOdds(Fixture fixture)
         {
@@ -50,7 +50,7 @@ namespace PowerLinesFixtureService.Fixtures
             ExpectedGoals = fixture.MatchOdds?.ExpectedGoals ?? 0;
             Recommended = fixture.MatchOdds?.Recommended ?? "X";
             LowerRecommended = fixture.MatchOdds?.LowerRecommended ?? "X";
-            Calculated = fixture.MatchOdds.Calculated;
+            Calculated = fixture.MatchOdds?.Calculated;
         }
     }
 }

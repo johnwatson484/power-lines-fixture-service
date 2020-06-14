@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -17,8 +18,9 @@ namespace PowerLinesFixtureService.Fixtures
         public List<FixtureOdds> Get()
         {
             var fixtureOdds = new List<FixtureOdds>();
+            var startDate = DateTime.UtcNow.AddDays(-1).Date;
 
-            var fixtures = dbContext.Fixtures.AsNoTracking().Include(x => x.MatchOdds);
+            var fixtures = dbContext.Fixtures.AsNoTracking().Include(x => x.MatchOdds).Where(x => x.Date >= startDate);
 
             foreach (var fixture in fixtures)
             {
