@@ -11,6 +11,7 @@ RUN addgroup -g 1000 dotnet \
 USER dotnet
 WORKDIR /home/dotnet
 
+COPY --chown=dotnet:dotnet ./Directory.Build.props ./Directory.Build.props
 RUN mkdir -p /home/dotnet/PowerLinesFixtureService/ /home/dotnet/PowerLinesFixtureService.Tests/
 COPY --chown=dotnet:dotnet ./PowerLinesFixtureService.Tests/*.csproj ./PowerLinesFixtureService.Tests/
 RUN dotnet restore ./PowerLinesFixtureService.Tests/PowerLinesFixtureService.Tests.csproj
