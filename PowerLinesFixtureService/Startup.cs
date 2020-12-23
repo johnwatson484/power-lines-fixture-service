@@ -15,6 +15,7 @@ using PowerLinesFixtureService.Messaging;
 using Microsoft.EntityFrameworkCore;
 using PowerLinesFixtureService.Analysis;
 using PowerLinesFixtureService.Fixtures;
+using PowerLinesMessaging;
 
 namespace PowerLinesFixtureService
 {

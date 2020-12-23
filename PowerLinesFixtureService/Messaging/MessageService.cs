@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
-using PowerLinesFixtureService.Analysis;
 using Microsoft.EntityFrameworkCore;
+using PowerLinesMessaging;
 
 namespace PowerLinesFixtureService.Messaging
 {

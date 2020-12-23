@@ -9,6 +9,7 @@ using PowerLinesFixtureService.Models;
 using System.Collections.Generic;
 using PowerLinesFixtureService.Messaging;
 using Microsoft.EntityFrameworkCore;
+using PowerLinesMessaging;
 
 namespace PowerLinesFixtureService.Analysis
 {
@@ -69,7 +70,7 @@ namespace PowerLinesFixtureService.Analysis
         public void CreateConnectionToQueue()
         {
             Task.Run(() =>
-                sender.CreateConnectionToQueue(new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.AnalysisUsername, messageConfig.AnalysisPassword).ToString(),
+                sender.CreateConnectionToQueue(QueueType.Worker, new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.AnalysisUsername, messageConfig.AnalysisPassword).ToString(),
                     messageConfig.AnalysisQueue))
             .Wait();
         }
