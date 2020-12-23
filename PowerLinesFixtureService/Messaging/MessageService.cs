@@ -44,7 +44,7 @@ namespace PowerLinesFixtureService.Messaging
             fixtureConsumer.CreateConnectionToQueue(QueueType.Worker, new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.FixtureUsername, messageConfig.FixturePassword).ToString(),
                 messageConfig.FixtureQueue);
             oddsConsumer.CreateConnectionToQueue(QueueType.ExchangeDirect, new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.OddsUsername, messageConfig.OddsPassword).ToString(),
-                messageConfig.OddsQueue);
+                messageConfig.OddsQueue, "power-lines-fixture-service");
         }
 
         private void ReceiveFixtureMessage(string message)
