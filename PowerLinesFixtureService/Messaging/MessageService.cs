@@ -41,10 +41,32 @@ namespace PowerLinesFixtureService.Messaging
 
         public void CreateConnectionToQueue()
         {
-            fixtureConsumer.CreateConnectionToQueue(QueueType.Worker, new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.FixtureUsername, messageConfig.FixturePassword).ToString(),
-                messageConfig.FixtureQueue);
-            oddsConsumer.CreateConnectionToQueue(QueueType.ExchangeDirect, new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.OddsUsername, messageConfig.OddsPassword).ToString(),
-                messageConfig.OddsQueue, "power-lines-fixture-service");
+            var fixtureOptions = new ConsumerOptions
+            {
+                Host = messageConfig.Host,
+                Port = messageConfig.Port,
+                Username = messageConfig.FixtureUsername,
+                Password = messageConfig.FixturePassword,
+                QueueName = messageConfig.FixtureQueue,
+                SubscriptionQueueName = "power-lines-fixtures-fixture",
+                QueueType = QueueType.ExchangeFanout
+            };
+
+            fixtureConsumer.CreateConnectionToQueue(fixtureOptions);
+
+            var oddsOptions = new ConsumerOptions
+            {
+                Host = messageConfig.Host,
+                Port = messageConfig.Port,
+                Username = messageConfig.OddsUsername,
+                Password = messageConfig.OddsPassword,
+                QueueName = messageConfig.OddsQueue,
+                SubscriptionQueueName = "power-lines-odds-fixture",
+                QueueType = QueueType.ExchangeDirect,
+                RoutingKey = "power-lines-fixture-service"                 
+            };
+
+            oddsConsumer.CreateConnectionToQueue(oddsOptions);
         }
 
         private void ReceiveFixtureMessage(string message)

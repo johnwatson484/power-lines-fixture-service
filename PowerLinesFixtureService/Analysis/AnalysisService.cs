@@ -69,9 +69,18 @@ namespace PowerLinesFixtureService.Analysis
 
         public void CreateConnectionToQueue()
         {
+            var options = new SenderOptions
+            {
+                Host = messageConfig.Host,
+                Port = messageConfig.Port,
+                Username = messageConfig.AnalysisUsername,
+                Password = messageConfig.AnalysisPassword,
+                QueueName = messageConfig.AnalysisQueue,
+                QueueType = QueueType.ExchangeFanout
+            };
+
             Task.Run(() =>
-                sender.CreateConnectionToQueue(QueueType.Worker, new BrokerUrl(messageConfig.Host, messageConfig.Port, messageConfig.AnalysisUsername, messageConfig.AnalysisPassword).ToString(),
-                    messageConfig.AnalysisQueue))
+                sender.CreateConnectionToQueue(options))
             .Wait();
         }
 
