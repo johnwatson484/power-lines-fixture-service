@@ -13,11 +13,12 @@ using PowerLinesMessaging;
 
 namespace PowerLinesFixtureService.Analysis
 {
-    public class AnalysisService : BackgroundService, IAnalysisService
+    public class AnalysisService : BackgroundService
     {
         private IServiceScopeFactory serviceScopeFactory;
         private IAnalysisApi analysisApi;
         private MessageConfig messageConfig;
+        private IConnection connection;
         private ISender sender;
         private Timer timer;
         private int frequencyInMinutes;
@@ -30,14 +31,51 @@ namespace PowerLinesFixtureService.Analysis
             this.frequencyInMinutes = frequencyInMinutes;
         }
 
+        public override Task StartAsync(CancellationToken stoppingToken)
+        {
+            CreateConnection();
+            CreateSender();
+
+            return base.StartAsync(stoppingToken);
+        }
+
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
             timer = new Timer(GetMatchOdds, null, TimeSpan.Zero, TimeSpan.FromMinutes(frequencyInMinutes));
             return Task.CompletedTask;
         }
 
-        public void GetMatchOdds(object state)
+        public override async Task StopAsync(CancellationToken cancellationToken)
+        {
+            await base.StopAsync(cancellationToken);
+            connection.CloseConnection();
+        }
+
+        protected void CreateConnection()
+        {
+            var options = new ConnectionOptions
+            {
+                Host = messageConfig.Host,
+                Port = messageConfig.Port,
+                Username = messageConfig.Username,
+                Password = messageConfig.Password
+            };
+            connection = new Connection(options);
+        }
+
+        protected void CreateSender()
+        {
+            var options = new SenderOptions
+            {
+                Name = messageConfig.AnalysisQueue,
+                QueueName = messageConfig.AnalysisQueue,
+                QueueType = QueueType.ExchangeFanout
+            };
+
+            sender = connection.CreateSenderChannel(options);
+        }
+
+        protected void GetMatchOdds(object state)
         {
             var lastResultDate = GetLastResultDate();
 
@@ -47,12 +85,12 @@ namespace PowerLinesFixtureService.Analysis
             }
         }
 
-        public DateTime? GetLastResultDate()
+        private DateTime? GetLastResultDate()
         {
             return Task.Run(() => analysisApi.GetLastResultDate()).Result;
         }
 
-        public void CheckPendingFixtures(DateTime lastResultDate)
+        private void CheckPendingFixtures(DateTime lastResultDate)
         {
             List<Fixture> pendingFixtures;
             using (var scope = serviceScopeFactory.CreateScope())
@@ -67,28 +105,8 @@ namespace PowerLinesFixtureService.Analysis
             }
         }
 
-        public void CreateConnectionToQueue()
+        private void SendFixturesForAnalysis(List<Fixture> fixtures)
         {
-            var options = new SenderOptions
-            {
-                Host = messageConfig.Host,
-                Port = messageConfig.Port,
-                Username = messageConfig.AnalysisUsername,
-                Password = messageConfig.AnalysisPassword,
-                QueueName = messageConfig.AnalysisQueue,
-                QueueType = QueueType.ExchangeFanout
-            };
-
-            Task.Run(() =>
-                sender.CreateConnectionToQueue(options))
-            .Wait();
-        }
-
-        public void SendFixturesForAnalysis(List<Fixture> fixtures)
-        {
-            sender = new Sender();
-            CreateConnectionToQueue();
-
             foreach (var fixture in fixtures)
             {
                 sender.SendMessage(new AnalysisMessage(fixture));

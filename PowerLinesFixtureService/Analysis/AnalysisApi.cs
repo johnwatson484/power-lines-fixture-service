@@ -29,9 +29,9 @@ namespace PowerLinesFixtureService.Analysis
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine("Analysis API unavailable: {0}", ex);
+                Console.WriteLine("Analysis API unavailable");
             }
 
             return lastResultDate;

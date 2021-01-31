@@ -11,62 +11,79 @@ using PowerLinesMessaging;
 
 namespace PowerLinesFixtureService.Messaging
 {
-    public class MessageService : BackgroundService, IMessageService
+    public class MessageService : BackgroundService
     {
+        private IConnection connection;
         private IConsumer fixtureConsumer;
         private IConsumer oddsConsumer;
         private MessageConfig messageConfig;
         private IServiceScopeFactory serviceScopeFactory;
 
-        public MessageService(IConsumer fixtureConsumer, IConsumer oddsConsumer, MessageConfig messageConfig, IServiceScopeFactory serviceScopeFactory)
+        public MessageService(MessageConfig messageConfig, IServiceScopeFactory serviceScopeFactory)
         {
-            this.fixtureConsumer = fixtureConsumer;
-            this.oddsConsumer = oddsConsumer;
             this.messageConfig = messageConfig;
             this.serviceScopeFactory = serviceScopeFactory;
         }
 
+        public override Task StartAsync(CancellationToken stoppingToken)
+        {
+            CreateConnection();
+            CreateFixtureConsumer();
+            CreateOddsConsumer();
+
+            return base.StartAsync(stoppingToken);
+        }
+
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Listen();
+            fixtureConsumer.Listen(new Action<string>(ReceiveFixtureMessage));
+            oddsConsumer.Listen(new Action<string>(ReceiveOddsMessage));
             return Task.CompletedTask;
         }
 
-        public void Listen()
+        public override async Task StopAsync(CancellationToken cancellationToken)
         {
-            CreateConnectionToQueue();
-            fixtureConsumer.Listen(new Action<string>(ReceiveFixtureMessage));
-            oddsConsumer.Listen(new Action<string>(ReceiveOddsMessage));
+            await base.StopAsync(cancellationToken);
+            connection.CloseConnection();
         }
 
-        public void CreateConnectionToQueue()
+        protected void CreateConnection()
         {
-            var fixtureOptions = new ConsumerOptions
+            var options = new ConnectionOptions
             {
                 Host = messageConfig.Host,
                 Port = messageConfig.Port,
-                Username = messageConfig.FixtureUsername,
-                Password = messageConfig.FixturePassword,
+                Username = messageConfig.Username,
+                Password = messageConfig.Password
+            };
+            connection = new Connection(options);
+        }
+
+        protected void CreateFixtureConsumer()
+        {
+            var options = new ConsumerOptions
+            {
+                Name = messageConfig.FixtureQueue,
                 QueueName = messageConfig.FixtureQueue,
-                SubscriptionQueueName = "power-lines-fixtures-fixture",
+                SubscriptionQueueName = messageConfig.FixtureSubscription,
                 QueueType = QueueType.ExchangeFanout
             };
 
-            fixtureConsumer.CreateConnectionToQueue(fixtureOptions);
+            fixtureConsumer = connection.CreateConsumerChannel(options);
+        }
 
-            var oddsOptions = new ConsumerOptions
+        protected void CreateOddsConsumer()
+        {
+            var options = new ConsumerOptions
             {
-                Host = messageConfig.Host,
-                Port = messageConfig.Port,
-                Username = messageConfig.OddsUsername,
-                Password = messageConfig.OddsPassword,
+                Name = messageConfig.OddsQueue,
                 QueueName = messageConfig.OddsQueue,
-                SubscriptionQueueName = "power-lines-odds-fixture",
+                SubscriptionQueueName = messageConfig.OddsSubscription,
                 QueueType = QueueType.ExchangeDirect,
-                RoutingKey = "power-lines-fixture-service"                 
+                RoutingKey = "power-lines-fixture-service"
             };
 
-            oddsConsumer.CreateConnectionToQueue(oddsOptions);
+            oddsConsumer = connection.CreateConsumerChannel(options);
         }
 
         private void ReceiveFixtureMessage(string message)
