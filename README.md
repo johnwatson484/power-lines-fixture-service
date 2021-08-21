@@ -1,4 +1,5 @@
 [![Build Status](https://johnwatson484.visualstudio.com/John%20D%20Watson/_apis/build/status/Power%20Lines%20Fixture%20Service?branchName=master)](https://johnwatson484.visualstudio.com/John%20D%20Watson/_build/latest?definitionId=33&branchName=master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=johnwatson484_power-lines-fixture-service&metric=alert_status)](https://sonarcloud.io/dashboard?id=johnwatson484_power-lines-fixture-service)
 
 # Power Lines Fixture Service
 Fixture repository service
