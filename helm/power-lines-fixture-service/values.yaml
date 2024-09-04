@@ -9,14 +9,11 @@ container:
   limitCpu: 250m
   port: 5002
   comPlusEnableDiagnostics: 0
-  connectionString: "User Id=postgres;Password=postgres;Server=power-lines-fixture-service-postgres;Port=5432;Database=Database=power_lines_fixture;"
   analysisEndpoint: http://power-lines-analysis-service
 
 message:
-  host: host.docker.internal
+  host: services.lynxmagnus.com
   port: 5672
-  username: rabbitmq
-  password: rabbitmq
   fixtureQueue: power-lines-fixtures
   fixtureSubscription: power-lines-fixtures-fixture
   analysisQueue: power-lines-analysis
@@ -24,3 +21,6 @@ message:
   oddsSubscription: power-lines-odds-fixture
 
 deployment: {}
+
+secret:
+  secretsPath: /power-lines-fixture-service
