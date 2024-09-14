@@ -96,9 +96,10 @@ namespace PowerLinesFixtureService.Analysis
             using (var scope = serviceScopeFactory.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                pendingFixtures = dbContext.Fixtures.AsNoTracking().Include(x => x.MatchOdds).Where(x => x.MatchOdds == null
+                pendingFixtures = dbContext.Fixtures.AsNoTracking().Include(x => x.MatchOdds).Where(x => x.Date >= DateTime.Today
+                && (x.MatchOdds == null
                 || x.MatchOdds.Calculated == null
-                || x.MatchOdds.Calculated < lastResultDate
+                || x.MatchOdds.Calculated < lastResultDate)
                 ).ToList();
             }
 
