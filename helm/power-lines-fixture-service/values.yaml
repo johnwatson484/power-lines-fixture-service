@@ -1,12 +1,9 @@
 environment: production
 name: power-lines-fixture-service
-image: power-lines-fixture-service
 
 container:
-  requestMemory: 60Mi
-  requestCpu: 60m
-  limitMemory: 250Mi
-  limitCpu: 250m
+  image: power-lines-fixture-service
+  resourceTier: M
   port: 5002
   comPlusEnableDiagnostics: 0
   analysisEndpoint: http://power-lines-analysis-service
