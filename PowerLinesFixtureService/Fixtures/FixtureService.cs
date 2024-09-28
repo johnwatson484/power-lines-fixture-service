@@ -20,7 +20,7 @@ namespace PowerLinesFixtureService.Fixtures
             var fixtureOdds = new List<FixtureOdds>();
             var startDate = DateTime.UtcNow.AddDays(-1).Date;
 
-            var fixtures = dbContext.Fixtures.AsNoTracking().Include(x => x.MatchOdds).Where(x => x.Date >= startDate);
+            var fixtures = dbContext.Fixtures.AsNoTracking().Include(x => x.MatchOdds).Where(x => x.Date >= startDate && x.MatchOdds.Calculated != null);
 
             foreach (var fixture in fixtures)
             {
