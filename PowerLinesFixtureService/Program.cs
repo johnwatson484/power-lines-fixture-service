@@ -1,34 +1,48 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
 using PowerLinesFixtureService.Messaging;
 using PowerLinesFixtureService.Analysis;
+using PowerLinesFixtureService.Data;
+using PowerLinesFixtureService.Fixtures;
+using Microsoft.EntityFrameworkCore;
 
-namespace PowerLinesFixtureService
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<MessageOptions>(builder.Configuration.GetSection(key: "Message"));
+builder.Services.Configure<AnalysisOptions>(builder.Configuration.GetSection(key: "AnalysisUrl"));
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PowerLinesFixtureService"), options =>
+        options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(5), null))
+    );
+
+builder.Services.AddSingleton<IAnalysisApi, AnalysisApi>();
+builder.Services.AddScoped<IFixtureService, FixtureService>();
+
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddHostedService<MessageService>();
+builder.Services.AddHostedService<AnalysisService>();
+
+var app = builder.Build();
+
+if (builder.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-                .ConfigureServices(services =>
-                {
-                    services.AddHostedService<MessageService>();
-                    services.AddHostedService<AnalysisService>();
-                });
-    }
+app.MapControllers();
+
+ApplyMigrations(app.Services);
+
+await app.RunAsync();
+
+void ApplyMigrations(IServiceProvider serviceProvider)
+{
+    using var scope = serviceProvider.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
 }

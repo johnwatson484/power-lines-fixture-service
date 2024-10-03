@@ -1,10 +1,6 @@
-using System;
-using System.Threading.Tasks;
+namespace PowerLinesFixtureService.Analysis;
 
-namespace PowerLinesFixtureService.Analysis
+public interface IAnalysisApi
 {
-    public interface IAnalysisApi
-    {
-        Task<DateTime?> GetLastResultDate();
-    }
+    Task<DateTime?> GetLastResultDate();
 }

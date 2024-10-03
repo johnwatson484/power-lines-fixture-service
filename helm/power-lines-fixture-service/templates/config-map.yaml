@@ -1,0 +1,14 @@
+{{- include "helm-library.configmap" (list . "power-lines-fixture-service.configmap") -}}
+{{- define "power-lines-fixture-service.configmap" -}}
+data:
+  MESSAGE__HOST: {{ quote .Values.message.host }}
+  MESSAGE__PORT: {{ quote .Values.message.port }}
+  MESSAGE__ANALYSISQUEUE: {{ quote .Values.message.analysisQueue }}
+  MESSAGE__FIXTUREQUEUE: {{ quote .Values.message.fixtureQueue }}
+  MESSAGE__ODDSQUEUE: {{ quote .Values.message.oddsQueue }}
+  MESSAGE__FIXTURESUBSCRIPTION: {{ quote .Values.message.fixtureSubscription }}
+  MESSAGE__ODDSSUBSCRIPTION: {{ quote .Values.message.oddsSubscription }}
+  COMPLUS_ENABLEDIAGNOSTICS: {{ quote .Values.container.comPlusEnableDiagnostics }}
+  ASPNETCORE_ENVIRONMENT: {{ quote .Values.environment }}
+  ANALYSISURL__ENDPOINT: {{ quote .Values.container.analysisEndpoint }}
+{{- end -}}

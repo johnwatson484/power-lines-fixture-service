@@ -1,10 +1,6 @@
-using System.Collections.Generic;
-using PowerLinesFixtureService.Models;
+namespace PowerLinesFixtureService.Fixtures;
 
-namespace PowerLinesFixtureService.Fixtures
+public interface IFixtureService
 {
-    public interface IFixtureService
-    {
-        List<FixtureOdds> Get();
-    }
+    List<FixtureOdds> Get();
 }

@@ -1,17 +1,10 @@
 using PowerLinesFixtureService.Models;
 
-namespace PowerLinesFixtureService.Analysis
+namespace PowerLinesFixtureService.Analysis;
+
+public class AnalysisMessage(Fixture fixture)
 {
-    public class AnalysisMessage
-    {
-        public Fixture Fixture { get; set; }
-
-        public string Sender { get; set; }
-
-        public AnalysisMessage(Fixture fixture)
-        {
-            Fixture = fixture;
-            Sender = "power-lines-fixture-service";
-        }
-    }
+    public Fixture Fixture { get; set; } = fixture;
+    public string Sender { get; set; } = "power-lines-fixture-service";
 }
+

@@ -1,9 +1,0 @@
-services:
-  power-lines-fixture-service:
-    build: 
-      context: .
-      target: development
-    image: power-lines-fixture-service-test
-    container_name: power-lines-fixture-service-test
-    entrypoint: dotnet test ./PowerLinesFixtureService.Tests/PowerLinesFixtureService.Tests.csproj
-    

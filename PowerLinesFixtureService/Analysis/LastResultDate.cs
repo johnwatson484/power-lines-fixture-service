@@ -1,11 +1,9 @@
-using System;
+namespace PowerLinesFixtureService.Analysis;
 
-namespace PowerLinesFixtureService.Analysis
+public class LastResultDate
 {
-    public class LastResultDate
-    {
-        public bool Available { get; set; }
+    public bool Available { get; set; }
 
-        public DateTime? Date { get; set; }
-    }
+    public DateTime? Date { get; set; }
 }
+

@@ -10,5 +10,4 @@ docker-compose*
 LICENSE
 README.md
 Dockerfile
-npm-debug.log
 azure-pipelines.yaml

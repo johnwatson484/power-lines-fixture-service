@@ -1,24 +1,18 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using PowerLinesFixtureService.Data;
-using PowerLinesFixtureService.Models;
 using PowerLinesFixtureService.Fixtures;
 
-namespace PowerLinesFixtureService.Controllers
-{
-    [ApiController]
-    [Route("[controller]")]
-    public class FixturesController : ControllerBase
-    {
-        IFixtureService fixtureService;
+namespace PowerLinesFixtureService.Controllers;
 
-        public FixturesController(IFixtureService fixtureService)
-        {
-            this.fixtureService = fixtureService;
-        }
-        public ActionResult<IEnumerable<FixtureOdds>> Get()
-        {
-            return fixtureService.Get();
-        }
+[ApiController]
+[Route("[controller]")]
+public class FixturesController(IFixtureService fixtureService) : ControllerBase
+{
+    readonly IFixtureService fixtureService = fixtureService;
+
+    [Route("")]
+    [HttpGet]
+    public ActionResult<IEnumerable<FixtureOdds>> Index()
+    {
+        return fixtureService.Get();
     }
 }

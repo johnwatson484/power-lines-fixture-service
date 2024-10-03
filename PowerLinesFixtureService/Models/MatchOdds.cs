@@ -1,8 +1,7 @@
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PowerLinesFixtureService.Models
-{
+namespace PowerLinesFixtureService.Models;
+
     [Table("match_odds")]
     public class MatchOdds
     {
@@ -39,4 +38,3 @@ namespace PowerLinesFixtureService.Models
         [Column("calculated")]
         public DateTime Calculated { get; set; }
     }
-}
