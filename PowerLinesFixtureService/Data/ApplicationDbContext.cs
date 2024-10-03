@@ -3,8 +3,12 @@ using PowerLinesFixtureService.Models;
 
 namespace PowerLinesFixtureService.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public class ApplicationDbContext: DbContext
 {
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) 
+    { 
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+    }
     public DbSet<Fixture> Fixtures { get; set; }
     public DbSet<MatchOdds> MatchOdds { get; set; }
 
