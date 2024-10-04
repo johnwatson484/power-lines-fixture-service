@@ -10,9 +10,9 @@ services:
     ports:
       - "5002:5002"
     environment:
-      ConnectionStrings__PowerLinesFixtureService: "Server=power-lines-fixture-service-postgres;Port=5432;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
-      Message__Host: power-lines-message
-      AnalysisUrl__Endpoint: http://power-lines-analysis-service:5003
+      CONNECTIONSTRINGS__POWERLINESFIXTURESERVICE: "Server=power-lines-fixture-service-postgres;Port=5432;Database=power_lines_fixtures;User Id=postgres;Password=postgres;"
+      MESSAGE__HOST: power-lines-message
+      ANALYSISURL__ENDPOINT: http://power-lines-analysis-service:5003
     volumes:
       - ./PowerLinesFixtureService:/home/dotnet/PowerLinesFixtureService
     networks:
