@@ -10,5 +10,5 @@ data:
   MESSAGE__ODDSSUBSCRIPTION: {{ quote .Values.message.oddsSubscription }}
   COMPLUS_ENABLEDIAGNOSTICS: {{ quote .Values.container.comPlusEnableDiagnostics }}
   ASPNETCORE_ENVIRONMENT: {{ quote .Values.environment }}
-  ANALYSISURL__ENDPOINT: {{ quote .Values.container.analysisEndpoint }}
+  ANALYSISURL__ENDPOINT: {{ quote .Values.config.analysisEndpoint }}
 {{- end -}}

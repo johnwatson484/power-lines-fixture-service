@@ -1,11 +1,11 @@
-environment: production
-name: power-lines-fixture-service
-
 container:
   image: power-lines-fixture-service
   resourceTier: M
   port: 5002
   comPlusEnableDiagnostics: 0
+
+config:
+  environment: production
   analysisEndpoint: http://power-lines-analysis-service
 
 message:
