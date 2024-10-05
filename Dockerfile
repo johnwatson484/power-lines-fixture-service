@@ -12,10 +12,6 @@ USER dotnet
 WORKDIR /home/dotnet
 
 COPY --chown=dotnet:dotnet . .
-RUN mkdir -p /home/dotnet/PowerLinesFixtureService/ 
-COPY --chown=dotnet:dotnet ./PowerLinesFixtureService/*.csproj ./PowerLinesFixtureService/
-RUN dotnet restore ./PowerLinesFixtureService/PowerLinesFixtureService.csproj
-COPY --chown=dotnet:dotnet . .
 
 RUN dotnet publish ./PowerLinesFixtureService/ -c Release -o /home/dotnet/out
 

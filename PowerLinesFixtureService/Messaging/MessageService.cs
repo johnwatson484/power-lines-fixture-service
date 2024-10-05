@@ -9,7 +9,7 @@ namespace PowerLinesFixtureService.Messaging;
 
 public class MessageService(IOptions<MessageOptions> messageOptions, IServiceScopeFactory serviceScopeFactory) : BackgroundService
 {
-    private IConnection connection;
+    private Connection connection;
     private Consumer fixtureConsumer;
     private Consumer oddsConsumer;
     private readonly MessageOptions messageOptions = messageOptions.Value;
