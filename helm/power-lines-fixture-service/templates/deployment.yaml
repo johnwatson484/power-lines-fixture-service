@@ -1,2 +1,3 @@
 {{- include "helm-library.deployment" (list . "power-lines-fixture-service.deployment") -}}
+{{- define "power-lines-fixture-service.deployment" -}}
 {{- end -}}
